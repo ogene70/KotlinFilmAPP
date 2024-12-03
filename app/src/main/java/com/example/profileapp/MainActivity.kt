@@ -1,5 +1,6 @@
 package com.example.profileapp
 
+import DetailSerie
 import android.os.Bundle
 import android.view.Window
 import androidx.activity.ComponentActivity
@@ -43,12 +44,15 @@ import androidx.window.core.layout.WindowWidthSizeClass
 import com.example.profileapp.ui.theme.ProfileAPPTheme
 import kotlinx.serialization.Serializable
 import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.toRoute
+
 
 @Serializable class FilmsDestination
 @Serializable class SeriesDestination
 @Serializable class ActeursDestination
 @Serializable class ProfileDestination
-@Serializable class DetailFilmDestination
+@Serializable class DetailFilmDestination(val id:Int)
+@Serializable class DetailSerieDestination(val id:Int)
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,13 +103,19 @@ class MainActivity : ComponentActivity() {
 
                         innerPadding ->
                     NavHost(modifier= Modifier.padding(innerPadding), navController = navController, startDestination = ProfileDestination()) {
-                        composable<FilmsDestination> { Films(viewModel = viewmodel) }
+                        composable<FilmsDestination> { Films(viewModel = viewmodel,navController) }
                         composable<SeriesDestination> { Series(viewModel=viewmodel,navController= navController) }
                         composable<ActeursDestination> { Acteurs() }
                         composable<ProfileDestination> {
                             Screen(windowSizeClass,navController) }
-                        composable<DetailFilmDestination> {  }
+                        composable<DetailFilmDestination> {
+                                backStackEntry ->
+                            val detailFilm= backStackEntry.toRoute<DetailFilmDestination>()
+                            DetailFilmView(viewmodel,navController,detailFilm.id) }
 
+                        composable<DetailSerieDestination> {backStackEntry ->
+                            val detailSerie= backStackEntry.toRoute<DetailSerieDestination>()
+                            DetailSerieView(viewmodel,navController,detailSerie.id) }
 
                     }
                 }
