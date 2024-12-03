@@ -29,7 +29,7 @@ interface TmdbAPI{
     suspend fun getDetailFilm(@Path("id") id_film:Int , @Query("api_key") api_key:String):DetailFilm
 
 
-    @Get("")
+
 }
 
 
