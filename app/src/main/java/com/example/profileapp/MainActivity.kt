@@ -1,6 +1,7 @@
 package com.example.profileapp
 
 import DetailSerie
+import PlaylistView
 import android.os.Bundle
 import android.view.Window
 import androidx.activity.ComponentActivity
@@ -53,6 +54,9 @@ import androidx.navigation.toRoute
 @Serializable class ProfileDestination
 @Serializable class DetailFilmDestination(val id:Int)
 @Serializable class DetailSerieDestination(val id:Int)
+@Serializable class PlaylistDestination
+
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,6 +96,12 @@ class MainActivity : ComponentActivity() {
                               icon = { }, label = { Text("Acteurs") },
                               selected = currentDestination?.hasRoute<ActeursDestination>() == true,
                               onClick = { navController.navigate(ActeursDestination()) })
+                          NavigationBarItem(
+                              icon = { }, label = { Text("Playlist") },
+                              selected = currentDestination?.hasRoute<PlaylistDestination>() == true,
+                              onClick = { navController.navigate(PlaylistDestination()) })
+
+
                       }
 
                   }
@@ -99,11 +109,20 @@ class MainActivity : ComponentActivity() {
 
 
                  } )
+
+
+
                  {
 
                         innerPadding ->
                     NavHost(modifier= Modifier.padding(innerPadding), navController = navController, startDestination = ProfileDestination()) {
                         composable<FilmsDestination> { Films(viewModel = viewmodel,navController) }
+                        composable<PlaylistDestination> { PlaylistView(
+                            viewModel = viewmodel,
+                            navController =navController
+                        ) }
+
+
                         composable<SeriesDestination> { Series(viewModel=viewmodel,navController= navController) }
                         composable<ActeursDestination> { Acteurs() }
                         composable<ProfileDestination> {

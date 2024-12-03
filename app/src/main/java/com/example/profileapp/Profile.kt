@@ -101,7 +101,7 @@ fun Screen(classes: WindowSizeClass,navCotroller:NavHostController){
                 Profile("Ogené","JOSEPH")
                 Info()
                 Contact()
-                MyButton(Modifier.clickable { navCotroller.navigate(FilmsDestination()) })
+                MyButton(Modifier.clickable { navCotroller.navigate(PlaylistDestination()) })
             }
 
         }
