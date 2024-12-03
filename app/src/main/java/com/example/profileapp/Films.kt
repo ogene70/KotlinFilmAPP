@@ -30,10 +30,11 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.LaunchedEffect
+import androidx.navigation.NavController
 import moviesByDefault
 
 @Composable
-fun Films(viewModel: MainViewModel){
+fun Films(viewModel: MainViewModel,navController: NavController){
 
 val movies by viewModel.movies.collectAsState()
 LaunchedEffect(true) {viewModel.fetchMovies()}
@@ -50,7 +51,9 @@ LaunchedEffect(true) {viewModel.fetchMovies()}
 
        items(moviesByDefault.size){
            index ->
-           OutlinedCard() {
+           OutlinedCard(
+
+           ) {
 
                Column() {
                    Text(text="${moviesByDefault[index].original_title}")
@@ -76,7 +79,9 @@ LaunchedEffect(true) {viewModel.fetchMovies()}
 
                 items(movies.size){
                         index ->
-                    OutlinedCard() {
+                    OutlinedCard(
+                        onClick = {navController.navigate(DetailFilmDestination(movies[index].id))}
+                    ) {
 
                         Column() {
                             Text(text="${movies[index].original_title}")

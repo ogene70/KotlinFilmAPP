@@ -60,7 +60,9 @@ fun Series(viewModel: MainViewModel,navController:NavHostController){
                     items(series.size){
                             index ->
                         OutlinedCard(
-                            Modifier.clickable { navController.navigate(DetailFilmdestination()) }
+                            onClick = {
+                                navController.navigate(DetailSerieDestination(series[index].id))
+                            }
                         ) {
 
                             Column() {
